@@ -1,0 +1,33 @@
+database : myrecipt
+user : dbconnect
+pw : dydwn123
+
+
+/* 사용자 테이블 */
+
+create table user(
+userNumber int(100) auto_increment primary key,
+userId varchar(100) not null unique,
+userPw varchar(255) not null,
+userName varchar(50) not null
+);
+
+/* 지불 수단 - 카드 (종류별) or 현금 */
+
+create table payment(
+paymentId int(100) auto_increment  primary key,
+kinds varchar(100) not null,
+userId varchar(100) not null,
+foreign key (userId) references user (userId) on delete cascade on update cascade
+);
+
+/* 사용 금액 */
+
+create table paymoney(
+paymoney int(100) not null,
+payment int(100),
+date datetime not null,
+content varchar(255),
+foreign key (payment) references payment (paymentId) on delete cascade on update cascade
+);
+
