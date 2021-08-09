@@ -1,4 +1,4 @@
 # git ignore
 
-/react_mysql_example.txt
+/receipt_mysql_example.txt
 ./react-app/node_modules
