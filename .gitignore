@@ -3,3 +3,4 @@
 /receipt_mysql_example.txt
 ./react-app/node_modules
 ./server/model/mysql.js
+./server/node_modules
