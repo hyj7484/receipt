@@ -6,11 +6,29 @@ const ViewCalender = ({year, month, date}) => {
     list[i] = {};
   }
   return (
-    <table style={{width:"90%", margin:"0 auto", borderCollapse:"collapse"}}>
+    <>
+    <div style={{width:"100%", border:"1px solid black", borderRadius:"20px", backgroundColor:"white"}}>
+      <div className="header" style={{display:"flex"}}>
+        <div style={{flex:2, textAlign:"center", alignSelf:"center"}}> Date </div>
+        <div style={{flex:20, textAlign:"center", borderLeft :"1px solid black", padding:"10px 20px"}}> Content </div>
+      </div>
+      <div className="content" style={{width:"100%"}}>
+        {list.map((value, index) => {
+          return (
+            <div key={index} style={{display:"flex", borderTop : "1px solid black"}}>
+              <div style={{flex:2, textAlign:"center", alignSelf:"center",}}> {index+1} </div>
+              <div style={{flex:20, paddingLeft:"30px", borderLeft:"1px solid black", padding:"10px 20px"}}> {value.content ? "As" : "bd"} <br/> asd </div>
+            </div>
+          )
+        })}
+      </div>
+    </div>
+    {/*
+    <table style={{width:"90%", margin:"0 auto", borderCollapse:"collapse", border:"5px solid blue", borderRadius:"2px"}}>
       <thead>
-        <tr style={{width:"100%", border:"1px solid black"}}>
-          <td style={{width:"5%", textAlign:"center", borderRight:"1px solid black"}}> 요일 </td>
-          <td style={{textAlign:"center"}}> 내용 </td>
+        <tr style={{width:"100%"}}>
+          <td style={{width:"5%", textAlign:"center"}}> Date </td>
+          <td style={{textAlign:"center"}}> Content </td>
         </tr>
       </thead>
       <tbody>
@@ -25,12 +43,14 @@ const ViewCalender = ({year, month, date}) => {
       }
       </tbody>
     </table>
+    */}
+    </>
   )
 }
 
 const Calender = (props) => {
-  const [year, setYear] = useState(null);
-  const [month, setMonth] = useState(null);
+  const year = props.year;
+  const month = props.month;
   const [lastDate, setLastDate] = useState(null);
   useEffect(()=>{
     /*
@@ -43,42 +63,13 @@ const Calender = (props) => {
      get NowMonth  = date.getMonth() + 1
      get startWeek = new Date(year-month-1).getDay()
     */
-
-    const date = new Date();
-    const nowYear = date.getFullYear();
-    const nowMonth = date.getMonth()+1;
-    console.log(typeof nowMonth)
-    setYear(nowYear);
-    setMonth(nowMonth);
-    setLastDate(new Date(nowYear, nowMonth, 0).getDate());
+    setLastDate(new Date(year, month, 0).getDate());
   },[]);
 
-  useEffect(()=>{
-    setLastDate(new Date(year, month, 0).getDate());
-  }, [month])
-
-  const backMonth = () => {
-    if(month !== 1){
-      setMonth(month-1)
-    }else{
-      setMonth(12)
-      setYear(year-1)
-    }
-  }
-  const nextMonth = () => {
-    if(month !== 12) {
-      setMonth(month+1)
-    }else{
-      setMonth(1)
-      setYear(year+1)
-    }
-  }
   return(
-    <div className="Calender">
-      <div style={{width:"80%", margin:"0 auto"}}>
-        <div style={{float:"left", width:"10%", hetight:"30px", border:"1px solid black", textAlign:"center"}} onClick={backMonth}> {`<`} </div>
-        <div style={{float:"center", width:"80%", hetight:"30px", border:"1px solid black", float:"left",  textAlign:"center"}}> {year}년 {month}월 </div>
-        <div style={{float:"right", width:"10%", hetight:"30px", border:"1px solid black", textAlign:"center"}} onClick={nextMonth}> {`>`} </div>
+    <div className="Calender" style={{ width:"100%", margin:"50px auto", minWidth:"500px", margin:"0 auto", paddingBottom:"30px"}}>
+      <div style={{width:"100%", textAlign:"center"}}>
+        <h1> {month} / {year} </h1>
       </div>
       <ViewCalender year={year} month={month} date={lastDate}/>
     </div>
