@@ -4,3 +4,7 @@
 ./react-app/node_modules
 ./server/model/mysql.js
 ./server/node_modules
+
+node_modules
+dist/*
+*.log
