@@ -20,7 +20,7 @@ const btnStyle = {
 const ViewCardList = ({cardList}) => {
   // console.log(cardList)
   return cardList.map((item, index) => {
-      return <option key={index} value={item.cardName}> {item.cardName} </option>
+      return <option key={index} value={JSON.stringify(item)}> {item.cardName} </option>
   })
 }
 
@@ -90,42 +90,58 @@ const Home = (props) => {
 
     getCardList(user.userNumber);
 
-    setPayList([
-      {money : 1000, month : 1},
-      {money : 5000, month : 1},
-      {money : 7000, month : 1},
-      {money : 4000, month : 1},
-      {money : 10000, month : 1},
-      {money : 20000, month : 1},
-      {money : 150000, month : 3},
-    ])
     setMonth(date.getMonth() + 1);
     setYear(date.getFullYear())
   }, []);
 
   useEffect(()=>{
-
+    if(card !== null)
+      getPayList(card, month, year);
   }, [month]);
+
+  useEffect(()=>{
+    if(card != null)
+      getPayList(card, month, year);
+  }, [card])
+  useEffect(()=>{
+    console.log(payList)
+  }, [payList])
 
   const getCardList = async (userNumber) => {
     const data = {
       userNumber : userNumber
     }
     const reqData = await axios.post(`${dbUrl}/card/getCardList`, data)
-    console.log(reqData.data)
     /*
         reqData's key
         cardId, cardName
     */
     setCardList(reqData.data)
+    setCard(reqData.data[0])
+  }
+  const getPayList = async (card) => {
+    const data = {
+      cardId : card.cardId,
+      month : month,
+      year : year,
+    }
+    console.log(data);
+    const getList = await axios.post(`${dbUrl}/paymoney/getMoneyList`, data);
+    console.log(getList)
+    setPayList(getList.data)
+
+
   }
 
+  const cardPayContent = (card, month) => {
+
+  }
 
   const changeCard = (e) => {
     /*
       change card play funciton
     */
-    setCard(e.target.value)
+    setCard(JSON.parse(e.target.value));
   }
 
   const clickHome = () => {
@@ -145,7 +161,7 @@ const Home = (props) => {
     /*
       AddPay View prt
     */
-    setPage(<AddPay />)
+    setPage(<AddPay dbUrl={dbUrl} card={card} getPayList={getPayList}/>)
   }
 
   const clickAddCard = () => {

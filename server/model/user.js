@@ -9,25 +9,16 @@ const app = require('express')();
   req data = userId, userPw
 */
 
-app.get('/test', (req, res) => {
-  // const id = req.userId || "";
-  // const pw = req.userPw || "";
-  console.log()
-  res.json('hello');
-})
 
 app.post('/login', (req, res) => {
   const id = req.body.userId || "";
   const pw = req.body.userPw || "";
   const query = `select * from user where userId = '${id}' and userPw = '${pw}'`;
-  console.log(id)
-  console.log(pw)
   if(id == "" || pw == ""){
     res.json(false);
   }
   mysql.query(query, (err, rows)=> {
     if(err) throw err;
-    console.log('con')
     res.json(rows[0] != null ? rows[0] : false );
   })
 });
@@ -51,7 +42,6 @@ app.post('/sign', (req, res) => {
     if(rows.length == 0) {
       mysql.query(insertQuery, (err, rows) => {
         if(err) throw err;
-        console.log(rows);
         res.json(true);
       })
     }else{

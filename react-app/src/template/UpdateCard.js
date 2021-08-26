@@ -1,10 +1,6 @@
 import {useState, useEffect} from 'react';
 import axios from 'axios';
 
-const addCard = ({cardName}) => {
-
-}
-
 const UpdateCard = (props) => {
   const [option, setOption] = useState('add');
   const [view, setView] = useState(null);

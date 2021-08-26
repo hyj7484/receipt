@@ -21,7 +21,7 @@ function App() {
         </Route>
         }
         <Route exact path='/sign'>
-          <Sign dbUrl={dbUrl}/>
+          <Sign dbUrl={dbUrl} userState={[user, setUser]}/>
         </Route>
         <Route path='*'>
           NO PAGE

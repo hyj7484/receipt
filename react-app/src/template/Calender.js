@@ -1,10 +1,19 @@
 import {useState, useEffect} from 'react';
 
-const ViewCalender = ({year, month, date}) => {
-  const list = new Array(date);
+const ViewCalender = ({payList, year, month}) => {
+  /*
+    key = payMoney, date, conet
+  */
+  const list = new Array(new Date(year, month, 0).getDate());
+  console.log(payList)
   for(let i = 0; i < list.length; i++){
-    list[i] = {};
+    list[i] = [''];
   }
+  for(let i = 0; i < payList.length; i++){
+    const date = new Date(payList[i].date).getDate();
+    list[date].push(payList[i]);
+  }
+
   return (
     <>
     <div style={{width:"100%", border:"1px solid black", borderRadius:"20px", backgroundColor:"white"}}>
@@ -14,10 +23,18 @@ const ViewCalender = ({year, month, date}) => {
       </div>
       <div className="content" style={{width:"100%"}}>
         {list.map((value, index) => {
+          console.log(value);
           return (
             <div key={index} style={{display:"flex", borderTop : "1px solid black"}}>
               <div style={{flex:2, textAlign:"center", alignSelf:"center",}}> {index+1} </div>
-              <div style={{flex:20, paddingLeft:"30px", borderLeft:"1px solid black", padding:"10px 20px"}}> {value.content ? "As" : "bd"} <br/> asd </div>
+              <div style={{flex:20, paddingLeft:"30px", borderLeft:"1px solid black", padding:"10px 20px"}}>
+              {value.map((value1, index1) => {
+                console.log(value1)
+                return (<>
+                  {value1.content}
+                  <br/>
+                </>)
+              }) } </div>
             </div>
           )
         })}
@@ -52,6 +69,7 @@ const Calender = (props) => {
   const year = props.year;
   const month = props.month;
   const [lastDate, setLastDate] = useState(null);
+  const payList = props.payList;
   useEffect(()=>{
     /*
     getFullYear = year
@@ -71,7 +89,7 @@ const Calender = (props) => {
       <div style={{width:"100%", textAlign:"center"}}>
         <h1> {month} / {year} </h1>
       </div>
-      <ViewCalender year={year} month={month} date={lastDate}/>
+      <ViewCalender payList={payList} year={year} month={month} date={lastDate}/>
     </div>
   )
 }
